@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reviewfilmes-app
+  namespace: devops4devs
+spec:
+  selector:
+    matchLabels:
+      app: reviewfilmes-app
+  template:
+    metadata:
+      labels:
+        app: reviewfilmes-app
+    spec:
+      containers:
+      - name: reviewfilmes-app
+        image: viniciuspoa2/review-filmes:v2
+        resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
