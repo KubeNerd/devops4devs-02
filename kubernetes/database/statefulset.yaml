@@ -3,6 +3,8 @@ kind: StatefulSet
 metadata:
   name: postgres-statefulset
   namespace: devops4devs
+  annotations:
+    secret.reloader.stakater.com/reload: "postgres-secrets"
   labels: &labels
     app: postgres
     component: statefulset
