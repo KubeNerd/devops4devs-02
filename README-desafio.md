@@ -72,5 +72,11 @@ Comando:
 kubectl apply -f ./application*
 ```
 
+Aplicação no K8S Lens:
+![alt text](image.png)
 
+
+Aplicação rodadando no localhost:
+
+![alt text](image-1.png)
 
