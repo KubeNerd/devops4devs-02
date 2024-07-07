@@ -1,20 +1,20 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: reviewfimes-ingress
-  namespace: devops4devs
+  name: grafana-ingress
+  namespace: default
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
-  - host: "127.0.0.1.nip.io"
+  - host: "grafana.127.0.0.1.nip.io"
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: reviewfilmes-service
+            name: grafana
             port:
               number: 80

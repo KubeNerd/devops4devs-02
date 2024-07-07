@@ -11,10 +11,14 @@ spec:
     metadata:
       labels:
         app: reviewfilmes-app
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8080'
+        prometheus.io/path: '/metrics'
     spec:
       containers:
       - name: reviewfilmes-app
-        image: viniciuspoa2/review-filmes:v2
+        image: viniciuspoa2/review-filmes:v5
         resources:
           limits:
             memory: "1024Mi"
