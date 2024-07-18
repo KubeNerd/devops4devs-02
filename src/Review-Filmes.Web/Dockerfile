@@ -1,25 +1,23 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
-WORKDIR /app
-EXPOSE 8080
-
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
+# Use the official .NET image for the build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Review-Filmes.Web/Review-Filmes.Web.csproj", "Review-Filmes.Web/"]
-COPY ["Review-Filmes.Domain/Review-Filmes.Domain.csproj", "Review-Filmes.Domain/"]
-RUN dotnet restore "./Review-Filmes.Web/Review-Filmes.Web.csproj"
+
+# Copy the project files
 COPY . .
-WORKDIR "/src/Review-Filmes.Web"
-RUN dotnet build "./Review-Filmes.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Review-Filmes.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+# Restore dependencies
+RUN dotnet restore "./Review-Filmes.Web/Review-Filmes.Web.csproj"
 
-FROM base AS final
+# Build the project
+RUN dotnet build "./Review-Filmes.Web/Review-Filmes.Web.csproj" -c Release -o /app/build
+
+# Publish the project
+RUN dotnet publish "./Review-Filmes.Web/Review-Filmes.Web.csproj" -c Release -o /app/publish
+
+# Use the official .NET runtime image for running the app
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
+
+# Set the entry point for the application
 ENTRYPOINT ["dotnet", "Review-Filmes.Web.dll"]
