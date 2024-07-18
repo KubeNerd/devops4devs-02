@@ -24,7 +24,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          context: "${{AZURE_WEBAPP_PACKAGE_PATH}}/Dockerfile"
+          context: "./src/Dockerfile"
           tags: viniciuspoa2/devops4devs-02:latest
           push: true
       
