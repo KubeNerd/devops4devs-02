@@ -1,4 +1,4 @@
-# Use the official .NET image for the build
+# Use the official .NET image for the build that supports .NET 7.0
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
