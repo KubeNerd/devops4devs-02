@@ -1,23 +1,23 @@
-# Use the official .NET image for the build that supports .NET 7.0
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+# Use a imagem oficial do .NET SDK 8.0
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy the project files
+# Copie os arquivos do projeto
 COPY . .
 
-# Restore dependencies
+# Restaure as dependências
 RUN dotnet restore "./Review-Filmes.Web/Review-Filmes.Web.csproj"
 
-# Build the project
+# Compile o projeto
 RUN dotnet build "./Review-Filmes.Web/Review-Filmes.Web.csproj" -c Release -o /app/build
 
-# Publish the project
+# Publique o projeto
 RUN dotnet publish "./Review-Filmes.Web/Review-Filmes.Web.csproj" -c Release -o /app/publish
 
-# Use the official .NET runtime image for running the app
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
+# Use a imagem oficial do .NET runtime para rodar o app
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
 
-# Set the entry point for the application
+# Defina o ponto de entrada para a aplicação
 ENTRYPOINT ["dotnet", "Review-Filmes.Web.dll"]
